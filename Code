@@ -1,0 +1,99 @@
+-- Dịch vụ cần thiết
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+
+-- Biến trạng thái
+local infiniteJumpEnabled = false
+local localPlayer = Players.LocalPlayer
+
+-- --- PHẦN TẠO GUI (GIAO DIỆN) ---
+
+-- Xóa GUI cũ nếu đã tồn tại
+if CoreGui:FindFirstChild("InfJumpGUI") then
+	CoreGui:FindFirstChild("InfJumpGUI"):Destroy()
+end
+
+-- Tạo ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "InfJumpGUI"
+pcall(function()
+	screenGui.Parent = CoreGui
+end)
+if not screenGui.Parent then
+	screenGui.Parent = localPlayer:WaitForChild("PlayerGui")
+end
+
+-- Tạo Nút bấm chính
+local toggleButton = Instance.new("TextButton")
+toggleButton.Name = "ToggleButton"
+toggleButton.Parent = screenGui
+toggleButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+toggleButton.Position = UDim2.new(0, 20, 0, 50)
+toggleButton.Size = UDim2.new(0, 150, 0, 50)
+toggleButton.Font = Enum.Font.GothamBold
+toggleButton.Text = "INF JUMP: OFF"
+toggleButton.TextColor3 = Color3.fromRGB(255, 100, 100)
+toggleButton.TextSize = 16
+toggleButton.AutoButtonColor = false
+
+-- Trang trí (Bo góc, Viền, Bóng)
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 12)
+uiCorner.Parent = toggleButton
+
+local uiStroke = Instance.new("UIStroke")
+uiStroke.Parent = toggleButton
+uiStroke.Color = Color3.fromRGB(60, 60, 60)
+uiStroke.Thickness = 2
+uiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+local shadow = Instance.new("ImageLabel")
+shadow.Name = "Shadow"
+shadow.Parent = toggleButton
+shadow.BackgroundTransparency = 1
+shadow.Position = UDim2.new(0, -15, 0, -15)
+shadow.Size = UDim2.new(1, 30, 1, 30)
+shadow.ZIndex = 0
+shadow.Image = "rbxassetid://5554236805"
+shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+shadow.ScaleType = Enum.ScaleType.Slice
+shadow.SliceCenter = Rect.new(23, 23, 277, 277)
+shadow.ImageTransparency = 0.4
+
+-- --- LOGIC ---
+
+local function updateButtonVisuals()
+	local targetColor, targetTextColor, targetText, strokeColor
+
+	if infiniteJumpEnabled then
+		targetColor = Color3.fromRGB(46, 204, 113)
+		targetTextColor = Color3.fromRGB(255, 255, 255)
+		targetText = "INF JUMP: ON"
+		strokeColor = Color3.fromRGB(39, 174, 96)
+	else
+		targetColor = Color3.fromRGB(35, 35, 35)
+		targetTextColor = Color3.fromRGB(255, 100, 100)
+		targetText = "INF JUMP: OFF"
+		strokeColor = Color3.fromRGB(60, 60, 60)
+	end
+
+	TweenService:Create(toggleButton, TweenInfo.new(0.3), {BackgroundColor3 = targetColor}):Play()
+	TweenService:Create(toggleButton, TweenInfo.new(0.3), {TextColor3 = targetTextColor}):Play()
+	TweenService:Create(uiStroke, TweenInfo.new(0.3), {Color = strokeColor}):Play()
+	toggleButton.Text = targetText
+end
+
+toggleButton.MouseButton1Click:Connect(function()
+	infiniteJumpEnabled = not infiniteJumpEnabled
+	updateButtonVisuals()
+end)
+
+UserInputService.JumpRequest:Connect(function()
+	if infiniteJumpEnabled then
+		if localPlayer.Character and localPlayer.Character:FindFirstChild("Humanoid") then
+			localPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+		end
+	end
+end)
