@@ -137,5 +137,5 @@ end)
 Script này được tạo ra cho mục đích giáo dục và thử nghiệm. Vui lòng sử dụng có trách nhiệm.
 
 ---
-Created by [Tên-Của-Bạn]
+Created by [MinhLuaStudio]
 ```
