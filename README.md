@@ -1,54 +1,48 @@
 # 🚀 Roblox Infinite Jump Script (Modern GUI)
 
-Một script Luau nhẹ và mượt mà dành cho Roblox, cung cấp khả năng **Nhảy vô hạn (Infinite Jump)** với giao diện người dùng (GUI) hiện đại, có nút bật/tắt (Toggle) và hiệu ứng chuyển động.
+A lightweight and smooth Luau script for Roblox that provides **Infinite Jump** capabilities with a modern User Interface (GUI), featuring a toggle button and smooth animations.
 
 ![Lua](https://img.shields.io/badge/Language-Lua-blue) ![Platform](https://img.shields.io/badge/Platform-Roblox-red)
 
-## ✨ Tính năng (Features)
+## ✨ Features
 
-- [x] **Infinite Jump Logic:** Cho phép nhảy liên tục giữa không trung (Air Jump).
-- [x] **Modern GUI:** Giao diện được thiết kế đẹp mắt với:
-  - Bo tròn góc (Rounded Corners).
-  - Hiệu ứng bóng đổ (Drop Shadow).
-  - Viền tinh tế (Stroke).
-- [x] **Smooth Animations:** Sử dụng `TweenService` để chuyển đổi màu sắc mượt mà khi Bật/Tắt.
-- [x] **GUI Toggle:** Nút bấm On/Off nằm ở góc trái màn hình, dễ dàng thao tác.
-- [x] **Safe Injection:** Tự động đưa GUI vào `CoreGui` (nếu hỗ trợ) hoặc `PlayerGui` để tránh bị reset khi chết.
-- [x] **Anti-Duplicate:** Tự động xóa GUI cũ khi chạy lại script để tránh chồng chéo giao diện.
+- [x] **Infinite Jump Logic:** Allows continuous jumping in mid-air (Air Jump).
+- [x] **Modern GUI:** Beautifully designed interface featuring:
+  - Rounded Corners.
+  - Drop Shadow effects.
+  - Subtle Stroke/Borders.
+- [x] **Smooth Animations:** Utilizes `TweenService` for seamless color transitions when toggling ON/OFF.
+- [x] **GUI Toggle:** An On/Off button located at the top-left of the screen for easy access.
+- [x] **Safe Injection:** Automatically inserts the GUI into `CoreGui` (if supported) or `PlayerGui` to prevent it from resetting upon character death.
+- [x] **Anti-Duplicate:** Automatically removes previous GUIs when re-running the script to avoid interface overlapping.
 
-## 📸 Hình ảnh (Preview)
+## 📸 Preview
 
-*(Bạn hãy chụp ảnh màn hình trong game khi script đang chạy và dán link ảnh vào đây, ví dụ: `<img src="link_anh_cua_ban.png" width="400">`)*
+*(Please take an in-game screenshot while the script is running and paste the image link here, for example: `<img src="your_image_link.png" width="400">`)*
 
-## 🛠️ Cách sử dụng (How to Use)
+## 🛠️ How to Use
 
-1. Mở trình thực thi script (Executor) của bạn (ví dụ: Synapse X, Krnl, Fluxus, Delta, v.v.).
-2. Sao chép đoạn code bên dưới.
-3. Dán vào Executor và nhấn **Execute**.
-4. Một nút bấm **"INF JUMP: OFF"** sẽ hiện ở góc trên bên trái màn hình.
-5. Nhấn vào nút để bật chế độ nhảy vô hạn (Nút chuyển sang màu xanh lá).
+1. Open your script executor (e.g., Synapse X, Krnl, Fluxus, Delta, etc.).
+2. Copy the source code provided below.
+3. Paste it into the Executor and press **Execute**.
+4. An **"INF JUMP: OFF"** button will appear at the top-left of your screen.
+5. Click the button to enable infinite jump (the button will turn green).
 
 ## 📜 Source Code
 
 ```lua
--- Dịch vụ cần thiết
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 
--- Biến trạng thái
 local infiniteJumpEnabled = false
 local localPlayer = Players.LocalPlayer
 
--- --- PHẦN TẠO GUI (GIAO DIỆN) ---
-
--- Xóa GUI cũ nếu đã tồn tại
 if CoreGui:FindFirstChild("InfJumpGUI") then
 	CoreGui:FindFirstChild("InfJumpGUI"):Destroy()
 end
 
--- Tạo ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "InfJumpGUI"
 pcall(function()
@@ -58,7 +52,6 @@ if not screenGui.Parent then
 	screenGui.Parent = localPlayer:WaitForChild("PlayerGui")
 end
 
--- Tạo Nút bấm chính
 local toggleButton = Instance.new("TextButton")
 toggleButton.Name = "ToggleButton"
 toggleButton.Parent = screenGui
@@ -71,7 +64,6 @@ toggleButton.TextColor3 = Color3.fromRGB(255, 100, 100)
 toggleButton.TextSize = 16
 toggleButton.AutoButtonColor = false
 
--- Trang trí (Bo góc, Viền, Bóng)
 local uiCorner = Instance.new("UICorner")
 uiCorner.CornerRadius = UDim.new(0, 12)
 uiCorner.Parent = toggleButton
@@ -94,8 +86,6 @@ shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
 shadow.ScaleType = Enum.ScaleType.Slice
 shadow.SliceCenter = Rect.new(23, 23, 277, 277)
 shadow.ImageTransparency = 0.4
-
--- --- LOGIC ---
 
 local function updateButtonVisuals()
 	local targetColor, targetTextColor, targetText, strokeColor
@@ -130,12 +120,3 @@ UserInputService.JumpRequest:Connect(function()
 		end
 	end
 end)
-```
-
-## ⚠️ Lưu ý (Disclaimer)
-
-Script này được tạo ra cho mục đích giáo dục và thử nghiệm. Vui lòng sử dụng có trách nhiệm.
-
----
-Created by [MinhLuaStudio]
-```
