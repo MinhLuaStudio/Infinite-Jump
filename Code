@@ -1,21 +1,15 @@
--- Dịch vụ cần thiết
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 
--- Biến trạng thái
 local infiniteJumpEnabled = false
 local localPlayer = Players.LocalPlayer
 
--- --- PHẦN TẠO GUI (GIAO DIỆN) ---
-
--- Xóa GUI cũ nếu đã tồn tại
 if CoreGui:FindFirstChild("InfJumpGUI") then
 	CoreGui:FindFirstChild("InfJumpGUI"):Destroy()
 end
 
--- Tạo ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "InfJumpGUI"
 pcall(function()
@@ -25,7 +19,6 @@ if not screenGui.Parent then
 	screenGui.Parent = localPlayer:WaitForChild("PlayerGui")
 end
 
--- Tạo Nút bấm chính
 local toggleButton = Instance.new("TextButton")
 toggleButton.Name = "ToggleButton"
 toggleButton.Parent = screenGui
@@ -38,7 +31,6 @@ toggleButton.TextColor3 = Color3.fromRGB(255, 100, 100)
 toggleButton.TextSize = 16
 toggleButton.AutoButtonColor = false
 
--- Trang trí (Bo góc, Viền, Bóng)
 local uiCorner = Instance.new("UICorner")
 uiCorner.CornerRadius = UDim.new(0, 12)
 uiCorner.Parent = toggleButton
@@ -61,8 +53,6 @@ shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
 shadow.ScaleType = Enum.ScaleType.Slice
 shadow.SliceCenter = Rect.new(23, 23, 277, 277)
 shadow.ImageTransparency = 0.4
-
--- --- LOGIC ---
 
 local function updateButtonVisuals()
 	local targetColor, targetTextColor, targetText, strokeColor
